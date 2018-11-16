@@ -30,7 +30,7 @@ before_script:
 - | # install `py2venv` for py2 versions to mimic py3 virtualenvs
   for VERSION in $(pyenv versions --bare | egrep '^2.') ; do
     pyenv shell ${VERSION} ;
-    python -m install py2venv ;
+    python -m pip install py2venv ;
   done
 script:
 - pyenv local ${PY_VERSION}
