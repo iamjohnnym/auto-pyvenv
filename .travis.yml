@@ -24,14 +24,13 @@ before_script:
 - pyenv install ${PY_VERSION} # set up our env
 - | # upgrade pip to latest
   for VERSION in $(pyenv versions --bare) ; do
-    echo ${VERSION}
     pyenv shell ${VERSION} ;
     pip install --user --upgrade pip ;
   done
 - | # install `py2venv` for py2 versions to mimic py3 virtualenvs
   for VERSION in $(pyenv versions --bare | egrep '^2.') ; do
     pyenv shell ${VERSION} ;
-    pip install --user py2venv ;
+    python -m install py2venv ;
   done
 script:
 - pyenv local ${PY_VERSION}
