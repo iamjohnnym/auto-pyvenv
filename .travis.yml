@@ -14,13 +14,13 @@ env:
   - PY_VERSION=3.6.0
   - PY_VERSION=3.7.0
 before_install:
+- git clone git://github.com/pyenv/pyenv-update.git $(pyenv root)/plugins/pyenv-update
 - pyenv update
 - | # give us a fresh pyenv configuration
   for VERSION in echo $(pyenv versions --bare | egrep '^[2|3].') ; do
     yes|pyenv uninstall ${VERSION} ; # this is a prompt so pipe it from `yes`
   done
 before_script:
-- curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 - eval "$(pyenv init -)"
 - pyenv install ${PY_VERSION} # set up our env
 - | # upgrade pip to latest
