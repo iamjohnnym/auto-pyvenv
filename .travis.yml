@@ -7,13 +7,13 @@ addons:
     - direnv
 env:
   matrix:
-  - PY_VERSION=2.7.10
   - PY_VERSION=2.7.12
   - PY_VERSION=2.7.15
   - PY_VERSION=3.3.0
   - PY_VERSION=3.6.0
   - PY_VERSION=3.7.0
 before_install:
+- ls -al
 - cd /opt/pyenv ; git checkout master ; git pull origin
 - git clone git://github.com/pyenv/pyenv-update.git $(pyenv root)/plugins/pyenv-update
 - pyenv update
@@ -35,7 +35,9 @@ before_script:
     pyenv shell ${VERSION} ;
     python -m pip install py2venv ;
   done
+- ls -al
 script:
+- ls -al
 - pyenv local ${PY_VERSION}
 - direnv allow
 
