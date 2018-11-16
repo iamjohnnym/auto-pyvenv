@@ -16,7 +16,7 @@ env:
 before_install:
 - | # give us a fresh pyenv configuration
   for VERSION in echo $(pyenv versions --bare | egrep '^[2|3].') ; do
-    pyenv uninstall ${VERSION} ;
+    yes|pyenv uninstall ${VERSION} ; # this is a prompt so pipe it from `yes`
   done
 before_script:
 - curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
