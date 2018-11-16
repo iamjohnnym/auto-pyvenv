@@ -1,4 +1,5 @@
-# Project Bootstrap
+[![Build Status](https://travis-ci.com/iamjohnnym/auto-pyvenv.svg?branch=master)](https://travis-ci.com/iamjohnnym/auto-pyvenv)
+# Auto Pyvenv
 [![forthebadge](https://forthebadge.com/images/badges/uses-badges.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)](https://forthebadge.com)
 
@@ -8,7 +9,7 @@ Whether you’re just getting started or you’re a seasoned pythonista, pythone
 
 # Table of contents
 
-- [Project Bootstrap](#project-bootstrap)
+- [Auto Pyvenv](#auto-pyvenv)
 - [Table of contents](#table-of-contents)
 - [Usage](#usage)
     - [Installation](#installation)
