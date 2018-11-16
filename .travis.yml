@@ -20,9 +20,11 @@ before_install:
   done
 before_script:
 - curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+- eval "$(pyenv init -)"
 - pyenv install ${PY_VERSION} # set up our env
 - | # upgrade pip to latest
   for VERSION in $(pyenv versions --bare) ; do
+    echo ${VERSION}
     pyenv shell ${VERSION} ;
     pip install --upgrade pip ;
   done
