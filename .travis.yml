@@ -14,6 +14,7 @@ env:
   - PY_VERSION=3.6.0
   - PY_VERSION=3.7.0
 before_install:
+- pyenv update
 - | # give us a fresh pyenv configuration
   for VERSION in echo $(pyenv versions --bare | egrep '^[2|3].') ; do
     yes|pyenv uninstall ${VERSION} ; # this is a prompt so pipe it from `yes`
