@@ -1,0 +1,39 @@
+sudo: required
+dist: xenial
+language: python
+addons:
+  apt:
+    packages:
+    - direnv
+env:
+  matrix:
+  - PY_VERSION=2.7.12
+  - PY_VERSION=2.7.15
+  - PY_VERSION=3.3.0
+  - PY_VERSION=3.6.0
+  - PY_VERSION=3.7.0
+before_install:
+- cd /opt/pyenv ; git checkout master ; git pull origin ; cd -
+- | # give us a fresh pyenv configuration
+  for VERSION in echo $(pyenv versions --bare | egrep '^[2|3].') ; do
+    yes|pyenv uninstall ${VERSION} ; # this is a prompt so pipe it from `yes`
+  done
+before_script:
+- eval "$(pyenv init -)"
+# - curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+- pyenv install ${PY_VERSION} # set up our env
+- | # upgrade pip to latest
+  for VERSION in $(pyenv versions --bare) ; do
+    pyenv shell ${VERSION} ;
+    pip install --user --upgrade pip ;
+  done
+- | # install `py2venv` for py2 versions to mimic py3 virtualenvs
+  for VERSION in $(pyenv versions --bare | egrep '^2.') ; do
+    pyenv shell ${VERSION} ;
+    python -m pip install py2venv ;
+  done
+script:
+- pyenv local ${PY_VERSION}
+- direnv allow
+
+
