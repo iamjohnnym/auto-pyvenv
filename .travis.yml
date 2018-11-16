@@ -14,6 +14,7 @@ env:
   - PY_VERSION=3.6.0
   - PY_VERSION=3.7.0
 before_install:
+- cd /opt/pyenv ; git checkout master ; git pull origin
 - git clone git://github.com/pyenv/pyenv-update.git $(pyenv root)/plugins/pyenv-update
 - pyenv update
 - | # give us a fresh pyenv configuration
@@ -22,6 +23,7 @@ before_install:
   done
 before_script:
 - eval "$(pyenv init -)"
+# - curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 - pyenv install ${PY_VERSION} # set up our env
 - | # upgrade pip to latest
   for VERSION in $(pyenv versions --bare) ; do
