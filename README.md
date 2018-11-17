@@ -5,7 +5,7 @@
 
 **RELATED ARTICLE** :: https://iamjohnnym.com/2018/11/15/managing-python-with-pyenv-and-direnv.html
 
-Whether you’re just getting started or you’re a seasoned pythonista, pythoneer, or ${INSERT_YOUR_VERB_HERE}, you’ve probably found managing your python environments to be tedious and rather painful. Managing Python versions, libraries, and various dependencies is like playing shuffle board where the object is to not hit any other puck; if you do, the probability of a cascading effect of pucks flying everywhere you don’t want them to be will soon follow. Perhaps a (╯°□°)╯︵ uoɥʇʎd moment will occur. Let’s mitigate that.
+This project is meant to ease the process of managing python for given projects.  Leveraging `pyenv`, `virtualenv`, and `direnv`, users will automatically create and source a python virtualenv for their projects.
 
 # Table of contents
 
@@ -41,6 +41,20 @@ Activating Python 3.7.0 virtualenv
 Virtualenv has been activated for Python 3.7.0
 /Users/iamjohnnym/.personal/tutorials/pyenv-direnv/.venv/bin/python
 direnv: export +VIRTUAL_ENV ~PATH
+```
+
+You can also specify what version of python you want to use with your project by creating a `.python-version` file.
+
+```sh
+$ pyenv local 3.6.1
+$ cat .python-version
+3.6.1
+$ pyenv versions
+  system
+  2.7.15
+  3.5.0
+* 3.6.1 (set by /Users/iamjohnnym/.personal/auto-venv/.python-version)
+  3.7.0
 ```
 
 ## Uninstallation
