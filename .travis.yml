@@ -33,11 +33,14 @@ before_script:
     python -m pip install py2venv ;
   done
 script:
+- which direnv
+- env
 - |
   if [ "${PY_VERSION}" != "None" ] ; then
     mkdir ./global-test ;
     cp .envrc ./global-test/.envrc ;
     cd ./global-test ;
+    pwd ;
     direnv allow ;
     ls -al
   fi
@@ -46,6 +49,7 @@ jobs:
   include:
   - stage: install binary when missing for python 2.x
     script:
+      - env
       - |
         mkdir test-python ; \
         cp .envrc test-python/.envrc ; \
@@ -55,6 +59,7 @@ jobs:
       - ls -al
   - stage: install binary when missing for python 3.x
     script:
+      - env
       - |
         mkdir test-python ; \
         cp .envrc test-python/.envrc ; \
