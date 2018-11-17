@@ -35,10 +35,10 @@ before_script:
 script:
 - |
   if [ "${PY_VERSION}" != "None" ] ; then
-    mkdir ./global-test
-    cp .envrc ./global-test/.envrc
-    cd ./global-test
-    direnv allow
+    mkdir ./global-test ;
+    cp .envrc ./global-test/.envrc ;
+    cd ./global-test ;
+    direnv allow ;
     ls -al
   fi
 
