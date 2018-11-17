@@ -36,4 +36,14 @@ script:
 - pyenv local ${PY_VERSION}
 - direnv allow
 
+jobs:
+  include:
+  - stage: install binary when missing
+    script:
+      -|
+        mkdir test-python && \
+        cp .envrc test-python/.envrc && \
+        echo "2.7.15" > .python-version && \
+        cd test-python
+      - direnv allow
 
