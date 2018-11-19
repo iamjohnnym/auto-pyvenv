@@ -33,8 +33,7 @@ before_script:
     python -m pip install py2venv ;
   done
 script:
-- which direnv
-- env
+- eval "$(direnv hook bash)"
 - |
   if [ "${PY_VERSION}" != "None" ] ; then
     mkdir ./global-test ;
