@@ -18,8 +18,10 @@ before_install:
   for VERSION in echo $(pyenv versions --bare | egrep '^[2|3].') ; do
     yes|pyenv uninstall ${VERSION} ; # this is a prompt so pipe it from `yes`
   done
-before_script:
 - eval "$(pyenv init -)"
+- eval "$(direnv hook bash)"
+- env |grep -i direv
+before_script:
 # - curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 - pyenv install ${PY_VERSION} # set up our env
 - | # upgrade pip to latest
@@ -33,7 +35,7 @@ before_script:
     python -m pip install py2venv ;
   done
 script:
-- eval "$(direnv hook bash)"
+- env |grep -i direv
 - |
   if [ "${PY_VERSION}" != "None" ] ; then
     mkdir ./global-test ;
