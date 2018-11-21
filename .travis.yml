@@ -18,17 +18,24 @@ before_install:
 - eval "$(direnv hook bash)"
 before_script:
 # - curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
-- pyenv install ${PY_VERSION} # set up our env
+- |
+  if [ "${PY_VERSION}" != "None" ] ; then
+    pyenv install ${PY_VERSION} # set up our env
+  fi
 - | # upgrade pip to latest
-  for VERSION in $(pyenv versions --bare) ; do
-    pyenv shell ${VERSION} ;
-    pip install --user --upgrade pip ;
-  done
+  if [ "${PY_VERSION}" != "None" ] ; then
+    for VERSION in $(pyenv versions --bare) ; do
+      pyenv shell ${VERSION} ;
+      pip install --user --upgrade pip ;
+    done
+  fi
 - | # install `py2venv` for py2 versions to mimic py3 virtualenvs
-  for VERSION in $(pyenv versions --bare | egrep '^2.') ; do
-    pyenv shell ${VERSION} ;
-    python -m pip install py2venv ;
-  done
+  if [ "${PY_VERSION}" != "None" ] ; then
+    for VERSION in $(pyenv versions --bare | egrep '^2.') ; do
+      pyenv shell ${VERSION} ;
+      python -m pip install py2venv ;
+    done
+  fi
 script:
 - |
   if [ "${PY_VERSION}" != "None" ] ; then
@@ -37,6 +44,7 @@ script:
     cd ./global-test ;
     source .envrc ;
   fi
+- ls -alyy
 
 jobs:
   include:
@@ -48,6 +56,7 @@ jobs:
         echo "2.7.15" > test-python/.python-version ; \
         cd test-python
       - source .envrc
+      - ls -al
     env:
       - PY_VERSION=None
   - stage: install binary when missing for python 3.x
@@ -58,5 +67,6 @@ jobs:
         echo "3.7.0" > test-python/.python-version ; \
         cd test-python
       - source .envrc
+      - ls -al
     env:
       - PY_VERSION=None
