@@ -44,7 +44,7 @@ script:
     cd ./global-test ;
     source .envrc ;
   fi
-- ls -alyy
+- ls -al
 
 jobs:
   include:
