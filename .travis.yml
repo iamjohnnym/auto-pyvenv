@@ -1,10 +1,6 @@
 sudo: required
 dist: xenial
 language: python
-addons:
-  apt:
-    packages:
-    - direnv
 env:
   matrix:
   - PY_VERSION=2.7.12
@@ -20,7 +16,6 @@ before_install:
   done
 - eval "$(pyenv init -)"
 - eval "$(direnv hook bash)"
-- env |grep -i direv
 before_script:
 # - curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 - pyenv install ${PY_VERSION} # set up our env
@@ -35,36 +30,33 @@ before_script:
     python -m pip install py2venv ;
   done
 script:
-- env |grep -i direv
-- mkdir ./global-test
-- cp .envrc ./global-test/.envrc
-- cd ./global-test
-- pwd
-- whoami
-- direnv allow .
-- ls -al
+- |
+  if [ "${PY_VERSION}" != "None" ] ; then
+    mkdir ./global-test ;
+    cp .envrc ./global-test/.envrc ;
+    cd ./global-test ;
+    source .envrc ;
+  fi
 
 jobs:
   include:
   - stage: install binary when missing for python 2.x
     script:
-      - env
       - |
         mkdir test-python ; \
         cp .envrc test-python/.envrc ; \
         echo "2.7.15" > test-python/.python-version ; \
         cd test-python
-      - direnv allow .
-      - whoami
-      - ls -al
+      - source .envrc
+    env:
+      - PY_VERSION=None
   - stage: install binary when missing for python 3.x
     script:
-      - env
       - |
         mkdir test-python ; \
         cp .envrc test-python/.envrc ; \
         echo "3.7.0" > test-python/.python-version ; \
         cd test-python
-      - direnv allow .
-      - whoami
-      - ls -al
+      - source .envrc
+    env:
+      - PY_VERSION=None
