@@ -1,10 +1,6 @@
 sudo: required
 dist: xenial
 language: python
-addons:
-  apt:
-    packages:
-    - direnv
 env:
   matrix:
   - PY_VERSION=2.7.12
@@ -13,27 +9,61 @@ env:
   - PY_VERSION=3.6.0
   - PY_VERSION=3.7.0
 before_install:
+# make sure `pyenv` is latest
 - cd /opt/pyenv ; git checkout master ; git pull origin ; cd -
 - | # give us a fresh pyenv configuration
   for VERSION in echo $(pyenv versions --bare | egrep '^[2|3].') ; do
     yes|pyenv uninstall ${VERSION} ; # this is a prompt so pipe it from `yes`
   done
-before_script:
 - eval "$(pyenv init -)"
+before_script:
 # - curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
-- pyenv install ${PY_VERSION} # set up our env
+- |
+  if [ "${PY_VERSION}" != "None" ] ; then
+    pyenv install ${PY_VERSION} # set up our env
+  fi
 - | # upgrade pip to latest
-  for VERSION in $(pyenv versions --bare) ; do
-    pyenv shell ${VERSION} ;
-    pip install --user --upgrade pip ;
-  done
+  if [ "${PY_VERSION}" != "None" ] ; then
+    for VERSION in $(pyenv versions --bare) ; do
+      pyenv shell ${VERSION} ;
+      pip install --user --upgrade pip ;
+    done
+  fi
 - | # install `py2venv` for py2 versions to mimic py3 virtualenvs
-  for VERSION in $(pyenv versions --bare | egrep '^2.') ; do
-    pyenv shell ${VERSION} ;
-    python -m pip install py2venv ;
-  done
+  if [ "${PY_VERSION}" != "None" ] ; then
+    for VERSION in $(pyenv versions --bare | egrep '^2.') ; do
+      pyenv shell ${VERSION} ;
+      python -m pip install py2venv ;
+    done
+  fi
 script:
-- pyenv local ${PY_VERSION}
-- direnv allow
+- |
+  if [ "${PY_VERSION}" != "None" ] ; then
+    mkdir ./global-test ;
+    cp .envrc ./global-test/.envrc ;
+    cd ./global-test ;
+    source .envrc ;
+  fi
 
-
+jobs:
+  include:
+  - stage: install binary when missing for python 2.x
+    script:
+      - |
+        mkdir test-python ; \
+        cp .envrc test-python/.envrc ; \
+        echo "2.7.15" > test-python/.python-version ; \
+        cd test-python
+      - source .envrc
+    env:
+      - PY_VERSION=None
+  - stage: install binary when missing for python 3.x
+    script:
+      - |
+        mkdir test-python ; \
+        cp .envrc test-python/.envrc ; \
+        echo "3.7.0" > test-python/.python-version ; \
+        cd test-python
+      - source .envrc
+    env:
+      - PY_VERSION=None
