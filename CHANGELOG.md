@@ -2,9 +2,10 @@
 
 ## 1.0.1 2018-11-17
 * Setup a virtualenv on the global version of python in the event `.python-version` is missing
-* Install the python binary of the version declared in `.python-verson` in the event it exists but the binary isnt installed
-    * upgrade pip
-    * upgrade setuptools as a preemtive move to in case its too old for `py2venv`
+* Install the python binary of the version declared in `.python-verson` file in the event it exists but the binary isnt installed
+    * upgrade `pip`
+    * upgrade `setuptools` as a preemtive move to in case its too old for `py2venv`
+    * install `py2venv` for `python 2.x` versions.
 * Added `VERSION` file
 
 ## 1.0.0 2018-11-16
